@@ -2,7 +2,7 @@
   "name": "@thronova/schemas",
   "version": "1.0.0",
   "private": true,
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch"
@@ -13,5 +13,6 @@
   },
   "devDependencies": {
     "typescript": "^5.4.5"
-  }
+  },
+  "types": "dist/index.d.ts"
 }

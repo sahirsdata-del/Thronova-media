@@ -5,7 +5,7 @@ export function initWorkers() {
   console.log("[WorkerRegistry] Initializing all background workers...");
 
   workerRegistry.registerWorker("upload", async (job) => {
-    console.log(\`[Worker] Processing upload job \${job.id}\`);
+    console.log(`[Worker] Processing upload job ${job.id}`);
     const { projectId, filePath, metadata } = job.data;
     
     // In a real scenario, filePath might come from the render job output
