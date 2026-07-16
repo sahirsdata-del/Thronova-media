@@ -9,6 +9,15 @@
   "references": [
     {
       "path": "../config"
+    },
+    {
+      "path": "../schemas"
+    },
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../utils"
     }
   ],
   "extends": "../../tsconfig.json"

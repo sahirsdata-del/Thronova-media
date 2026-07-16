@@ -1,0 +1,767 @@
+{
+  "packages/config": {
+    "packageJson": {
+      "name": "@thronova/config",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/constants": {
+    "packageJson": {
+      "name": "@thronova/constants",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/database": {
+    "packageJson": {
+      "name": "@thronova/database",
+      "version": "1.0.0",
+      "main": "index.ts",
+      "dependencies": {
+        "@prisma/client": "^7.8.0",
+        "@thronova/config": "*",
+        "@thronova/schemas": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*",
+        "dotenv": "^16.4.5"
+      },
+      "devDependencies": {
+        "prisma": "^7.8.0",
+        "typescript": "^5.0.0"
+      },
+      "scripts": {
+        "generate": "prisma generate",
+        "push": "prisma db push"
+      }
+    }
+  },
+  "packages/events": {
+    "packageJson": {
+      "name": "@thronova/events",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/media": {
+    "packageJson": {
+      "name": "@thronova/media",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true,
+        "jsx": "react-jsx"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/providers": {
+    "packageJson": {
+      "name": "@thronova/providers",
+      "version": "1.0.0",
+      "main": "src/index.ts",
+      "dependencies": {
+        "@google/generative-ai": "^0.24.1",
+        "@thronova/config": "*",
+        "@thronova/database": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*",
+        "googleapis": "^173.0.0"
+      },
+      "devDependencies": {
+        "typescript": "^5.0.0"
+      }
+    }
+  },
+  "packages/schemas": {
+    "packageJson": {
+      "name": "@thronova/schemas",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "zod": "^3.23.0"
+      },
+      "devDependencies": {
+        "typescript": "^5.4.5"
+      },
+      "types": "dist/index.d.ts"
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/services": {
+    "packageJson": {
+      "name": "@thronova/services",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/shared": {
+    "packageJson": {
+      "name": "@thronova/shared",
+      "version": "1.0.0",
+      "main": "src/index.ts",
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/schemas": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*",
+        "bullmq": "^5.80.2",
+        "ioredis": "^5.11.1",
+        "zod": "^3.23.0"
+      },
+      "devDependencies": {
+        "typescript": "^5.0.0"
+      }
+    }
+  },
+  "packages/templates": {
+    "packageJson": {
+      "name": "@thronova/templates",
+      "version": "1.0.0",
+      "main": "dist/index.js",
+      "types": "dist/index.d.ts",
+      "scripts": {
+        "build": "tsc"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/types": {
+    "packageJson": {
+      "name": "@thronova/types",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      },
+      "devDependencies": {
+        "typescript": "^5.4.5"
+      },
+      "types": "dist/index.d.ts"
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "packages/utils": {
+    "packageJson": {
+      "name": "@thronova/utils",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch"
+      },
+      "dependencies": {
+        "@thronova/config": "*"
+      },
+      "devDependencies": {
+        "@types/node": "^20.0.0",
+        "typescript": "^5.4.5"
+      },
+      "types": "dist/index.d.ts"
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "declaration": true
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/analytics": {
+    "packageJson": {
+      "name": "@thronova/worker-analytics",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/cleanup": {
+    "packageJson": {
+      "name": "@thronova/worker-cleanup",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*",
+        "bullmq": "^5.7.8"
+      },
+      "devDependencies": {
+        "@types/node": "^20.12.7",
+        "typescript": "^5.4.5"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/notification": {
+    "packageJson": {
+      "name": "@thronova/worker-notification",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/render": {
+    "packageJson": {
+      "name": "@thronova/worker-render",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@remotion/bundler": "^4.0.490",
+        "@remotion/renderer": "^4.0.490",
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/research": {
+    "packageJson": {
+      "name": "@thronova/worker-research",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/script": {
+    "packageJson": {
+      "name": "@thronova/worker-script",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "workers/upload": {
+    "packageJson": {
+      "name": "@thronova/worker-upload",
+      "version": "1.0.0",
+      "private": true,
+      "main": "dist/index.js",
+      "scripts": {
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "dev": "ts-node src/index.ts"
+      },
+      "dependencies": {
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*"
+      },
+      "devDependencies": {
+        "ts-node": "^10.9.2",
+        "typescript": "^5.0.0"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2022",
+        "module": "CommonJS",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true,
+        "outDir": "./dist",
+        "rootDir": "./src"
+      },
+      "include": [
+        "src/**/*"
+      ]
+    }
+  },
+  "apps/dashboard": {
+    "packageJson": {
+      "name": "thronova-dashboard",
+      "version": "0.1.0",
+      "private": true,
+      "scripts": {
+        "dev": "next dev",
+        "build": "DATABASE_URL=postgresql://mock:mock@localhost/mock next build",
+        "start": "next start",
+        "lint": "eslint"
+      },
+      "dependencies": {
+        "@auth/prisma-adapter": "^2.11.2",
+        "@base-ui/react": "^1.6.0",
+        "@prisma/client": "^7.8.0",
+        "@remotion/bundler": "^4.0.489",
+        "@remotion/renderer": "^4.0.489",
+        "@remotion/zod-types": "^4.0.489",
+        "@tanstack/react-query": "^5.101.2",
+        "@thronova/config": "*",
+        "@thronova/constants": "*",
+        "@thronova/database": "*",
+        "@thronova/providers": "*",
+        "@thronova/schemas": "*",
+        "@thronova/services": "*",
+        "@thronova/shared": "*",
+        "@thronova/types": "*",
+        "@thronova/utils": "*",
+        "class-variance-authority": "^0.7.1",
+        "clsx": "^2.1.1",
+        "date-fns": "^4.4.0",
+        "ioredis": "^5.11.1",
+        "lucide-react": "^1.24.0",
+        "next": "^16.2.10",
+        "next-auth": "^4.24.14",
+        "next-themes": "^0.4.6",
+        "react": "19.2.4",
+        "react-dom": "19.2.4",
+        "recharts": "^3.9.2",
+        "shadcn": "^4.13.0",
+        "sonner": "^2.0.7",
+        "tailwind-merge": "^3.6.0",
+        "tw-animate-css": "^1.4.0",
+        "zod": "^4.4.3",
+        "zustand": "^5.0.14"
+      },
+      "devDependencies": {
+        "@tailwindcss/postcss": "^4",
+        "@types/node": "^20",
+        "@types/react": "^19",
+        "@types/react-dom": "^19",
+        "eslint": "^9",
+        "eslint-config-next": "16.2.10",
+        "prisma": "^7.8.0",
+        "tailwindcss": "^4",
+        "typescript": "^5"
+      }
+    },
+    "tsconfig": {
+      "compilerOptions": {
+        "target": "ES2017",
+        "lib": [
+          "dom",
+          "dom.iterable",
+          "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "noEmit": true,
+        "esModuleInterop": true,
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "react-jsx",
+        "incremental": true,
+        "plugins": [
+          {
+            "name": "next"
+          }
+        ],
+        "paths": {
+          "@/*": [
+            "./src/*"
+          ]
+        }
+      },
+      "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        ".next/dev/types/**/*.ts",
+        "**/*.mts"
+      ],
+      "exclude": [
+        "node_modules"
+      ]
+    }
+  }
+}

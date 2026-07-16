@@ -9,6 +9,21 @@
   "references": [
     {
       "path": "../config"
+    },
+    {
+      "path": "../database"
+    },
+    {
+      "path": "../schemas"
+    },
+    {
+      "path": "../shared"
+    },
+    {
+      "path": "../types"
+    },
+    {
+      "path": "../utils"
     }
   ],
   "extends": "../../tsconfig.json"

@@ -1,7 +1,7 @@
 {
   "name": "@thronova/providers",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
     "@thronova/config": "*",
@@ -10,9 +10,14 @@
     "@thronova/shared": "*",
     "@thronova/types": "*",
     "@thronova/utils": "*",
-    "googleapis": "^173.0.0"
+    "googleapis": "^173.0.0",
+    "zod": "*"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
+  },
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
   }
 }

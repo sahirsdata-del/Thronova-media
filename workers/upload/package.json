@@ -16,7 +16,8 @@
     "@thronova/schemas": "*",
     "@thronova/shared": "*",
     "@thronova/types": "*",
-    "@thronova/utils": "*"
+    "@thronova/utils": "*",
+    "@thronova/services": "*"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",

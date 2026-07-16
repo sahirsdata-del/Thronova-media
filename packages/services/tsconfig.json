@@ -1,17 +1,30 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
     "outDir": "./dist",
-    "rootDir": "./src",
-    "declaration": true
+    "rootDir": "./src"
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "references": [
+    {
+      "path": "../config"
+    },
+    {
+      "path": "../constants"
+    },
+    {
+      "path": "../providers"
+    },
+    {
+      "path": "../database"
+    },
+    {
+      "path": "../shared"
+    },
+    {
+      "path": "../schemas"
+    }
+  ],
+  "extends": "../../tsconfig.json"
 }

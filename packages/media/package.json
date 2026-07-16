@@ -7,6 +7,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@thronova/config": "*"
+    "@thronova/config": "*",
+    "@thronova/schemas": "*",
+    "remotion": "*",
+    "zod": "*"
   }
 }

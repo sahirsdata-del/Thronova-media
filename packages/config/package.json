@@ -6,7 +6,5 @@
   "scripts": {
     "build": "tsc"
   },
-  "dependencies": {
-    "@thronova/config": "*"
-  }
+  "dependencies": {}
 }

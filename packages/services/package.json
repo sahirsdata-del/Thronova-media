@@ -8,6 +8,10 @@
   },
   "dependencies": {
     "@thronova/config": "*",
-    "@thronova/constants": "*"
+    "@thronova/constants": "*",
+    "@thronova/providers": "*",
+    "@thronova/database": "*",
+    "@thronova/shared": "*",
+    "@thronova/schemas": "*"
   }
 }

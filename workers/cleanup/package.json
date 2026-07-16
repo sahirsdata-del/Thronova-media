@@ -17,7 +17,8 @@
     "@thronova/shared": "*",
     "@thronova/types": "*",
     "@thronova/utils": "*",
-    "bullmq": "^5.7.8"
+    "bullmq": "^5.7.8",
+    "@thronova/services": "*"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",

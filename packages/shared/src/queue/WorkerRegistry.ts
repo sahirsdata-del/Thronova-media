@@ -1,5 +1,5 @@
 import { Worker, Job } from "bullmq";
-import { connection } from "./QueueManager";
+import { queueConnection as connection } from "./QueueManager";
 
 type JobHandler = (job: Job) => Promise<any>;
 
@@ -13,7 +13,7 @@ export class WorkerRegistry {
     }
 
     const worker = new Worker(queueName, handler, {
-      connection,
+      connection: connection as any,
       concurrency,
     });
 

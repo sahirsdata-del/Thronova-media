@@ -9,8 +9,8 @@
     "dev": "ts-node src/index.ts"
   },
   "dependencies": {
-    "@remotion/bundler": "^4.0.490",
-    "@remotion/renderer": "^4.0.490",
+    "@remotion/bundler": "*",
+    "@remotion/renderer": "*",
     "@thronova/config": "*",
     "@thronova/constants": "*",
     "@thronova/database": "*",
@@ -18,7 +18,8 @@
     "@thronova/schemas": "*",
     "@thronova/shared": "*",
     "@thronova/types": "*",
-    "@thronova/utils": "*"
+    "@thronova/utils": "*",
+    "@thronova/services": "*"
   },
   "devDependencies": {
     "ts-node": "^10.9.2",
