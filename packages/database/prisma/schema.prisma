@@ -1,0 +1,720 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// NextAuth Models
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  accounts      Account[]
+  sessions      Session[]
+  projects      Project[]
+  notifications Notification[]
+  activityLogs  ActivityLog[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Application Models
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    String   @default("ACTIVE") // ACTIVE, PAUSED
+
+  ideas          ContentIdea[]
+  research       Research[]
+  scripts        Script[]
+  voiceovers     Voiceover[]
+  assets         Asset[]
+  templates      Template[]
+  jobs           Job[]
+  renderedVideos RenderedVideo[]
+  publishedVideos PublishedVideo[]
+  videoOutputs   VideoOutput[]
+  renderedAssets RenderedAsset[]
+  assetFolders   AssetFolder[]
+  assetCollections AssetCollection[]
+}
+
+model ContentIdea {
+  id          String   @id @default(cuid())
+  title       String
+  category    String
+  description String?  @db.Text
+  priority        String   @default("MEDIUM") // LOW, MEDIUM, HIGH
+  status          String   @default("DRAFT") // DRAFT, RESEARCHING, READY, RENDERING, PUBLISHED, ARCHIVED
+  notes           String?  @db.Text
+  targetPlatforms String[] // Array of strings e.g. ["YouTube", "Instagram"]
+  language        String?
+  country         String?
+  tone            String?
+  targetAudience  String?
+  contentType     String?
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  researchJobs    ResearchJob[]
+  researchVersions ResearchVersion[]
+  scriptVersions  ScriptVersion[]
+}
+
+model Research {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  sourceUrl String?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Script {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Voiceover {
+  id        String   @id @default(cuid())
+  title     String
+  audioUrl  String
+  duration  Float?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Asset {
+  id              String   @id @default(cuid())
+  title           String
+  description     String?  @db.Text
+  type            String   // IMAGE, VIDEO, AUDIO, FONT, LOTTIE, SVG, DOCUMENT
+  category        String?
+  url             String
+  license         String?
+  resolution      String?
+  aspectRatio     String?
+  sizeBytes       Int?
+  colorPalette    String[]
+  dominantColor   String?
+  usageCount      Int      @default(0)
+  lastUsedAt      DateTime?
+  thumbnailUrl    String?
+
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  folderId        String?
+  folder          AssetFolder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  
+  tags            AssetTag[]
+  collections     AssetCollection[]
+  sceneAssets     SceneAsset[]
+  versions        AssetVersion[]
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Template {
+  id        String   @id @default(cuid())
+  name      String
+  data      Json     // Store template configuration
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Job {
+  id          String    @id @default(cuid())
+  type        String    // RESEARCH, SCRIPT, VOICEOVER, ASSET, RENDER, UPLOAD
+  queueName   String    @default("default")
+  status      String    @default("QUEUED") // QUEUED, WAITING, RUNNING, PAUSED, RETRYING, COMPLETED, FAILED, CANCELLED
+  priority    String    @default("NORMAL") // LOW, NORMAL, HIGH, CRITICAL
+  progress    Int       @default(0)
+  retryCount  Int       @default(0)
+  error       String?   @db.Text
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  scheduledFor DateTime?
+  durationMs  Int?
+  projectId   String
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  // Specific Job Details could be linked or stored in JSON payload
+  payload     Json?
+  result      Json?
+  
+  logs        JobLog[]
+  dependencies JobDependency[] @relation("JobDependencies")
+  dependents   JobDependency[] @relation("DependentJobs")
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  renderJob   RenderJob?
+  uploadJob   UploadJob?
+  researchJob ResearchJob?
+  assetDownloadJob AssetDownloadJob?
+}
+
+model RenderJob {
+  id        String   @id @default(cuid())
+  jobId     String   @unique
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  options   Json?
+}
+
+model RenderedVideo {
+  id        String   @id @default(cuid())
+  title     String
+  url       String
+  duration  Float?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model UploadJob {
+  id            String    @id @default(cuid())
+  jobId         String    @unique
+  job           Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  platform      String    // YOUTUBE, INSTAGRAM, TIKTOK
+  scheduledTime DateTime?
+}
+
+model PublishedVideo {
+  id               String    @id @default(cuid())
+  title            String
+  platform         String
+  url              String
+  platformVideoId  String?
+  status           String    @default("PROCESSING") // PROCESSING, PUBLISHED, FAILED
+  views            Int       @default(0)
+  duration         Int?      // Duration in seconds
+  thumbnailUrl     String?
+  publishedAt      DateTime  @default(now())
+  projectId        String
+  project          Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  analytics         Analytics[]
+  performanceReports PerformanceReport[]
+}
+
+model Analytics {
+  id               String         @id @default(cuid())
+  publishedVideoId String
+  publishedVideo   PublishedVideo @relation(fields: [publishedVideoId], references: [id], onDelete: Cascade)
+  views            Int            @default(0)
+  likes            Int            @default(0)
+  comments         Int            @default(0)
+  watchTime        Float          @default(0)
+  retention        Float          @default(0)
+  ctr              Float          @default(0)
+  subscribers      Int            @default(0)
+  revenue          Float          @default(0)
+  recordedAt       DateTime       @default(now())
+
+  @@index([recordedAt])
+}
+
+model PerformanceReport {
+  id               String         @id @default(cuid())
+  publishedVideoId String
+  publishedVideo   PublishedVideo @relation(fields: [publishedVideoId], references: [id], onDelete: Cascade)
+  score            Int
+  analysis         String         @db.Text
+  recommendations  Json
+  nextIdeas        Json
+  createdAt        DateTime       @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  details   Json?
+  createdAt DateTime @default(now())
+}
+
+// Research Engine Models
+model ResearchJob {
+  id          String   @id @default(cuid())
+  jobId       String   @unique
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  ideaId      String
+  idea        ContentIdea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  duration    Float?
+}
+
+model ResearchVersion {
+  id              String   @id @default(cuid())
+  ideaId          String
+  idea            ContentIdea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  versionNumber   Int
+  summary         String?  @db.Text
+  rawJson         Json
+  confidenceScore Float?
+  lastUpdated     DateTime @default(now())
+
+  references      ResearchReference[]
+  keywords        ResearchKeyword[]
+  facts           ResearchFact[]
+  topicEntities   TopicEntity[]
+
+  @@unique([ideaId, versionNumber])
+}
+
+model ResearchReference {
+  id          String   @id @default(cuid())
+  versionId   String
+  version     ResearchVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  url         String
+  title       String
+  snippet     String?  @db.Text
+}
+
+model ResearchKeyword {
+  id          String   @id @default(cuid())
+  versionId   String
+  version     ResearchVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  keyword     String
+  trendScore  Float?
+}
+
+model ResearchFact {
+  id          String   @id @default(cuid())
+  versionId   String
+  version     ResearchVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  fact        String   @db.Text
+  source      String?
+}
+
+model TopicEntity {
+  id          String   @id @default(cuid())
+  versionId   String
+  version     ResearchVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  category    String?
+  priceRange  String?
+  intent      String?
+  rawEntities Json?
+}
+
+model PromptTemplate {
+  id           String   @id @default(cuid())
+  name         String
+  purpose      String
+  systemPrompt String   @db.Text
+  userPrompt   String   @db.Text
+  variables    Json
+  version      Int      @default(1)
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AIProvider {
+  id          String   @id @default(cuid())
+  provider    String   // GEMINI, OPENAI, CLAUDE, LOCAL
+  model       String
+  temperature Float    @default(0.7)
+  maxTokens   Int      @default(2048)
+  language    String   @default("English")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Script Engine Models
+model ScriptVersion {
+  id              String   @id @default(cuid())
+  ideaId          String
+  idea            ContentIdea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  versionNumber   Int
+  title           String
+  duration        Float?
+  hook            String?  @db.Text
+  intro           String?  @db.Text
+  outro           String?  @db.Text
+  cta             String?  @db.Text
+  rawJson         Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  scenes          Scene[]
+  captions        Caption[]
+  metadata        Metadata?
+  thumbnailIdeas  ThumbnailIdea[]
+}
+
+model Scene {
+  id                 String   @id @default(cuid())
+  scriptId           String
+  script             ScriptVersion @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+  sceneNumber        Int
+  duration           Float?
+  purpose            String?
+  narration          String?  @db.Text
+  onScreenText       String?  @db.Text
+  animationNotes     String?  @db.Text
+  transition         String?
+  cameraStyle        String?
+  background         String?
+  musicSuggestion    String?
+  soundEffects       String?
+  emotion            String?
+  visualAssetsNeeded String?  @db.Text
+  order              Int      @default(0)
+
+  sceneAssets        SceneAsset[]
+}
+
+model Caption {
+  id        String   @id @default(cuid())
+  scriptId  String
+  script    ScriptVersion @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+  platform  String   // YOUTUBE, INSTAGRAM, FACEBOOK, TIKTOK, TWITTER, LINKEDIN
+  content   String   @db.Text
+}
+
+model Metadata {
+  id             String   @id @default(cuid())
+  scriptId       String   @unique
+  script         ScriptVersion @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+  seoTitle       String?
+  seoDescription String?  @db.Text
+  keywords       String[]
+  tags           String[]
+  categories     String[]
+}
+
+model ThumbnailIdea {
+  id           String   @id @default(cuid())
+  scriptId     String
+  script       ScriptVersion @relation(fields: [scriptId], references: [id], onDelete: Cascade)
+  headline     String?
+  visualLayout String?  @db.Text
+  colorTheme   String?
+  objects      String?
+  emotion      String?
+  cta          String?
+}
+
+model HookTemplate {
+  id        String   @id @default(cuid())
+  text      String   @db.Text
+  category  String?
+  isFavorite Boolean @default(false)
+}
+
+model CTATemplate {
+  id        String   @id @default(cuid())
+  text      String   @db.Text
+  category  String?
+}
+
+model ScriptTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  structure   Json
+  sceneRules  Json
+  duration    Float?
+  tone        String?
+  cta         String?
+}
+
+// Video Engine Models
+model VideoTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  category    String?
+  composition Json     // Base structure for Remotion
+  createdAt   DateTime @default(now())
+}
+
+model Theme {
+  id             String   @id @default(cuid())
+  name           String
+  primaryColor   String
+  secondaryColor String
+  fontFamily     String
+  bgStyle        String?
+  options        Json?
+}
+
+model RenderPreset {
+  id         String   @id @default(cuid())
+  name       String
+  resolution String   // e.g., 1080x1920
+  fps        Int      @default(30)
+  platform   String?
+}
+
+model AnimationPreset {
+  id         String   @id @default(cuid())
+  name       String
+  type       String   // e.g., 'Fade', 'Zoom', 'Slide'
+  config     Json     // duration, easing, direction
+}
+
+model TransitionPreset {
+  id         String   @id @default(cuid())
+  name       String
+  type       String   // e.g., 'CrossFade', 'Swipe'
+  config     Json
+}
+
+model VideoOutput {
+  id             String   @id @default(cuid())
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title          String
+  fileUrl        String
+  duration       Float?
+  resolution     String?
+  renderTimeMs   Int?
+  fileSizeBytes  Int?
+  thumbnailUrl   String?
+  status         String   @default("COMPLETED")
+  createdAt      DateTime @default(now())
+}
+
+model RenderedAsset {
+  id             String   @id @default(cuid())
+  projectId      String
+  project        Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type           String   // IMAGE, BROLL, AUDIO
+  url            String
+  createdAt      DateTime @default(now())
+}
+
+// Asset & Media Engine Models
+
+model AssetFolder {
+  id        String   @id @default(cuid())
+  name      String
+  parentId  String?
+  parent    AssetFolder? @relation("FolderToFolder", fields: [parentId], references: [id])
+  children  AssetFolder[] @relation("FolderToFolder")
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assets    Asset[]
+  createdAt DateTime @default(now())
+}
+
+model AssetCollection {
+  id        String   @id @default(cuid())
+  name      String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assets    Asset[]
+  createdAt DateTime @default(now())
+}
+
+model AssetTag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  assets    Asset[]
+}
+
+model SceneAsset {
+  id           String   @id @default(cuid())
+  sceneId      String
+  scene        Scene    @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  assetId      String?
+  asset        Asset?   @relation(fields: [assetId], references: [id], onDelete: SetNull)
+  role         String   // e.g., 'Background', 'B-Roll', 'Icon', 'SoundEffect'
+  status       String   @default("WAITING") // WAITING, DOWNLOADED, APPROVED, MISSING
+  prompt       String?  @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model AssetVersion {
+  id        String   @id @default(cuid())
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  url       String
+  version   Int
+  sizeBytes Int?
+  createdAt DateTime @default(now())
+}
+
+model StorageProvider {
+  id        String   @id @default(cuid())
+  name      String
+  type      String   // LOCAL, S3, GDRIVE, R2
+  config    Json
+  isDefault Boolean  @default(false)
+}
+
+model AssetUsage {
+  id        String   @id @default(cuid())
+  assetId   String
+  projectId String
+  sceneId   String?
+  usedAt    DateTime @default(now())
+}
+
+model AssetDownloadJob {
+  id        String   @id @default(cuid())
+  jobId     String   @unique
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  source    String   // UNSPLASH, PEXELS, YOUTUBE
+  query     String
+  status    String   @default("PENDING")
+}
+
+model AssetApproval {
+  id        String   @id @default(cuid())
+  assetId   String
+  status    String   // APPROVED, REJECTED
+  notes     String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+// Enterprise Workflow Engine Models
+
+model JobLog {
+  id        String   @id @default(cuid())
+  jobId     String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  level     String   @default("INFO") // INFO, WARN, ERROR, DEBUG
+  message   String   @db.Text
+  context   Json?
+  timestamp DateTime @default(now())
+}
+
+model WorkerNode {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  queues    String[] // Array of queue names it processes
+  status    String   @default("ONLINE") // ONLINE, OFFLINE, BUSY, PAUSED
+  cpuUsage  Float?
+  memUsage  Float?
+  lastSeen  DateTime @default(now())
+}
+
+model Workflow {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  steps       WorkflowStep[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkflowStep {
+  id         String   @id @default(cuid())
+  workflowId String
+  workflow   Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  name       String
+  queueName  String
+  dependsOn  String[] // Array of step names this depends on
+  order      Int      @default(0)
+  config     Json?
+}
+
+model JobDependency {
+  id             String   @id @default(cuid())
+  jobId          String
+  job            Job      @relation("JobDependencies", fields: [jobId], references: [id], onDelete: Cascade)
+  dependsOnJobId String
+  dependsOnJob   Job      @relation("DependentJobs", fields: [dependsOnJobId], references: [id], onDelete: Cascade)
+  status         String   @default("WAITING")
+}
+
+model QueueConfiguration {
+  id             String   @id @default(cuid())
+  queueName      String   @unique
+  concurrency    Int      @default(1)
+  retries        Int      @default(3)
+  retryDelayMs   Int      @default(5000)
+  timeoutMs      Int      @default(300000)
+  isPaused       Boolean  @default(false)
+  updatedAt      DateTime @updatedAt
+}
+
+model CleanupLog {
+  id              String   @id @default(cuid())
+  workerNode      String
+  filesDeleted    Int
+  bytesFreed      BigInt
+  errors          Int      @default(0)
+  durationMs      Int
+  status          String   // COMPLETED, FAILED
+  details         Json?    // Optional granular details of deleted files
+  createdAt       DateTime @default(now())
+}
+
+model StorageSnapshot {
+  id              String   @id @default(cuid())
+  totalBytes      BigInt
+  usedBytes       BigInt
+  freeBytes       BigInt
+  createdAt       DateTime @default(now())
+}

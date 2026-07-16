@@ -1,0 +1,226 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [],
+  "onMatchHeaders": [],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
+      "page": "/ideas/[id]",
+      "regex": "^/ideas/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/ideas/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/ideas/[id]/research",
+      "regex": "^/ideas/([^/]+?)/research(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/ideas/(?<nxtPid>[^/]+?)/research(?:/)?$"
+    },
+    {
+      "page": "/jobs/[id]",
+      "regex": "^/jobs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/jobs/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/scripts/[id]",
+      "regex": "^/scripts/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/scripts/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/videos/[id]",
+      "regex": "^/videos/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/videos/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/analytics",
+      "regex": "^/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/analytics(?:/)?$"
+    },
+    {
+      "page": "/analytics/insights",
+      "regex": "^/analytics/insights(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/analytics/insights(?:/)?$"
+    },
+    {
+      "page": "/api/cron/analytics",
+      "regex": "^/api/cron/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/cron/analytics(?:/)?$"
+    },
+    {
+      "page": "/api/storage/stats",
+      "regex": "^/api/storage/stats(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/storage/stats(?:/)?$"
+    },
+    {
+      "page": "/assets",
+      "regex": "^/assets(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/assets(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/ideas",
+      "regex": "^/ideas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/ideas(?:/)?$"
+    },
+    {
+      "page": "/jobs",
+      "regex": "^/jobs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/jobs(?:/)?$"
+    },
+    {
+      "page": "/renders",
+      "regex": "^/renders(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/renders(?:/)?$"
+    },
+    {
+      "page": "/research",
+      "regex": "^/research(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/research(?:/)?$"
+    },
+    {
+      "page": "/research/debug",
+      "regex": "^/research/debug(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/research/debug(?:/)?$"
+    },
+    {
+      "page": "/scripts",
+      "regex": "^/scripts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/scripts(?:/)?$"
+    },
+    {
+      "page": "/settings/ai",
+      "regex": "^/settings/ai(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings/ai(?:/)?$"
+    },
+    {
+      "page": "/settings/prompts",
+      "regex": "^/settings/prompts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings/prompts(?:/)?$"
+    },
+    {
+      "page": "/settings/scripts",
+      "regex": "^/settings/scripts(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings/scripts(?:/)?$"
+    },
+    {
+      "page": "/settings/storage",
+      "regex": "^/settings/storage(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings/storage(?:/)?$"
+    },
+    {
+      "page": "/settings/video",
+      "regex": "^/settings/video(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/settings/video(?:/)?$"
+    },
+    {
+      "page": "/uploads",
+      "regex": "^/uploads(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/uploads(?:/)?$"
+    },
+    {
+      "page": "/workflows",
+      "regex": "^/workflows(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/workflows(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

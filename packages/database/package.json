@@ -1,0 +1,21 @@
+{
+  "name": "@thronova/database",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "@prisma/client": "^7.8.0",
+    "@thronova/config": "*",
+    "@thronova/schemas": "*",
+    "@thronova/types": "*",
+    "@thronova/utils": "*",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "prisma": "^7.8.0",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "generate": "prisma generate",
+    "push": "prisma db push"
+  }
+}

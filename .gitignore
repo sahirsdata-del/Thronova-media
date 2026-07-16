@@ -39,3 +39,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Render outputs
+storage/temp/
+storage/renders/
+storage/assets/
+storage/voice/
+storage/subtitles/
+storage/cache/
+storage/archive/
+
+# Logs
+logs/
+*.log
+
+# Videos
+*.mp4
+*.mov
+*.webm
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db

@@ -1,0 +1,25 @@
+{
+  "name": "@thronova/worker-analytics",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "@thronova/config": "*",
+    "@thronova/constants": "*",
+    "@thronova/database": "*",
+    "@thronova/providers": "*",
+    "@thronova/schemas": "*",
+    "@thronova/shared": "*",
+    "@thronova/types": "*",
+    "@thronova/utils": "*"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.0.0"
+  }
+}
