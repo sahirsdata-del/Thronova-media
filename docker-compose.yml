@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+
+  redis:
+    image: redis:7-alpine
+    container_name: thronova-redis
+    restart: unless-stopped
+    networks:
+      - root_default
+
+  dashboard:
+    container_name: thronova-dashboard
+
+    build:
+      context: .
+      dockerfile: docker/dashboard/Dockerfile
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    volumes:
+      - /opt/thronova-storage:/opt/thronova-storage
+
+    networks:
+      - root_default
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=root_default"
+      - "traefik.http.routers.thronova-dashboard.rule=Host(`media.thronova.com`)"
+      - "traefik.http.routers.thronova-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.thronova-dashboard.tls=true"
+      - "traefik.http.services.thronova-dashboard.loadbalancer.server.port=3000"
+
+networks:
+  root_default:
+    external: true
