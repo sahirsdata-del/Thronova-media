@@ -22,7 +22,7 @@ RUN npx prisma generate --schema=packages/database/prisma/schema.prisma
 COPY apps/ ./apps/
 
 # Build all copied workspaces
-RUN npm run build --workspaces --if-present
+RUN npm run build
 
 # ---------------------------------------------------------
 
