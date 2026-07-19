@@ -3,12 +3,13 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy root configurations and package locks
-COPY package*.json ./
+COPY package*.json tsconfig.json workspace-info.json ./
 
-# Copy all packages for workspace dependency resolution
+# Copy all packages and workers for workspace dependency resolution
 COPY packages/ ./packages/
+COPY workers/ ./workers/
 
-# Copy the dashboard package definition
+# Copy the dashboard package definition (to preserve caching for npm ci)
 COPY apps/dashboard/package.json ./apps/dashboard/
 
 # Install all dependencies (including dev) to allow building
@@ -17,11 +18,10 @@ RUN npm ci
 # Generate Prisma Client (Required for types and database interaction)
 RUN npx prisma generate --schema=packages/database/prisma/schema.prisma
 
-# Copy the actual application source code
-COPY apps/dashboard/ ./apps/dashboard/
+# Copy all workspace applications
+COPY apps/ ./apps/
 
-# Build all copied workspaces (packages and dashboard)
-# We do not copy workers/ so they are safely ignored
+# Build all copied workspaces
 RUN npm run build --workspaces --if-present
 
 # ---------------------------------------------------------
