@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Trash2, Save, Palette, Video, Move } from "lucide-react";
+import { Plus, Trash2, Save, Palette, Video, Move, PlaySquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { signIn } from "next-auth/react";
 
 const themes = [
   { id: "1", name: "Dark Tech", primary: "#3b82f6", secondary: "#1d4ed8", font: "Inter", bg: "Grid" },
@@ -39,8 +40,35 @@ export default function VideoSettingsPage() {
           <TabsTrigger value="themes"><Palette className="mr-2 h-4 w-4" /> Brand Themes</TabsTrigger>
           <TabsTrigger value="presets"><Video className="mr-2 h-4 w-4" /> Render Presets</TabsTrigger>
           <TabsTrigger value="animations"><Move className="mr-2 h-4 w-4" /> Animations</TabsTrigger>
+          <TabsTrigger value="publishing"><PlaySquare className="mr-2 h-4 w-4" /> Publishing</TabsTrigger>
         </TabsList>
         
+        {/* PUBLISHING */}
+        <TabsContent value="publishing" className="mt-6 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Social Accounts</CardTitle>
+              <CardDescription>Connect your accounts to enable automated publishing.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-4 border rounded-lg bg-card">
+                <div className="flex items-center gap-4">
+                  <div className="p-2 bg-red-500/10 rounded-full">
+                    <PlaySquare className="h-6 w-6 text-red-500" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-lg">YouTube</h4>
+                    <p className="text-sm text-muted-foreground">Publish shorts and videos directly to your channel.</p>
+                  </div>
+                </div>
+                <Button onClick={() => signIn("google")} variant="default">
+                  Connect Account
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* BRAND THEMES */}
         <TabsContent value="themes" className="mt-6 space-y-4">
           <div className="flex justify-between items-center">

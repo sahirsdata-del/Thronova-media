@@ -7,7 +7,7 @@ export class GeminiProvider implements IAIProvider {
   private genAI: GoogleGenerativeAI;
   
   // Default to gemini-1.5-flash for speed, or pro for reasoning
-  private modelName = "gemini-1.5-pro";
+  private modelName = "gemini-2.5-flash";
 
   constructor() {
     const apiKey = AIConfig.GEMINI_API_KEY || "";

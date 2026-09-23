@@ -36,6 +36,18 @@ logger.info("Starting upload worker...");
 
 const worker = new Worker(QUEUES.UPLOAD, async (job) => {
   logger.info("Processing upload job:", job.id);
-  // Add specific integration here later
-  return { status: "success", worker: "upload" };
+  
+  const { projectId, filePath, metadata } = job.data;
+  
+  if (!projectId || !filePath || !metadata) {
+    throw new Error("Missing required upload job data: projectId, filePath, or metadata");
+  }
+
+  try {
+    const result = await publishService.publishVideo(projectId, filePath, metadata);
+    return { status: "success", worker: "upload", result };
+  } catch (error: any) {
+    logger.error(`Upload job ${job.id} failed:`, error.message);
+    throw error;
+  }
 }, { connection: connection as any });

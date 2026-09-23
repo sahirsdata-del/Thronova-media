@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "DATABASE_URL=postgresql://mock:mock@localhost/mock next build",
     "start": "next start",
     "lint": "eslint"

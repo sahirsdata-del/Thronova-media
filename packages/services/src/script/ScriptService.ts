@@ -1,6 +1,7 @@
 import { jobService } from "../workflow/JobService";
 import { geminiProvider } from "@thronova/providers";
 import { StoryboardSchema, Storyboard } from "@thronova/schemas";
+import { prisma } from "@thronova/database";
 
 export class ScriptService {
   async generateScript(ideaId: string, researchData: any, tone: string, language: string): Promise<Storyboard> {
@@ -40,7 +41,26 @@ Your task is to transform the provided Research JSON into a full-production Stor
         console.log(`[ScriptService] Parsing Gemini output with Zod...`);
         validStoryboard = StoryboardSchema.parse(response.result);
         
-        // TODO: Save to database (ScriptVersion) and JobLog
+        // Save to database (ScriptVersion)
+        const previousVersions = await prisma.scriptVersion.count({ where: { ideaId } });
+        
+        await prisma.scriptVersion.create({
+          data: {
+            ideaId,
+            versionNumber: previousVersions + 1,
+            title: validStoryboard.title || "Generated Script",
+            rawJson: validStoryboard as any,
+          }
+        });
+        
+        // Create a JobLog
+        await prisma.jobLog.create({
+          data: {
+            jobId: job.id,
+            level: 'INFO',
+            message: `Successfully generated storyboard script version ${previousVersions + 1}`,
+          }
+        });
         
         await jobService.updateJobStatus(job.id, 'COMPLETED', 100);
         return validStoryboard;
@@ -48,7 +68,15 @@ Your task is to transform the provided Research JSON into a full-production Stor
         attempt++;
         lastError = err;
         console.warn(`[ScriptService] Zod Validation Failed on attempt ${attempt}:`, err.message);
-        // On failure, it will loop and ask Gemini again. (In a real app, we might pass the Zod error back to Gemini to fix it)
+        
+        await prisma.jobLog.create({
+          data: {
+            jobId: job.id,
+            level: 'WARN',
+            message: `Validation failed on attempt ${attempt}: ${err.message}`,
+          }
+        });
+        // On failure, it will loop and ask Gemini again.
       }
     }
 

@@ -23,8 +23,16 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as any,
   providers: [
     GoogleProvider({
-      clientId: ProviderConfig.GOOGLE_DRIVE_CLIENT_ID || "",
-      clientSecret: ProviderConfig.GOOGLE_DRIVE_CLIENT_SECRET || "",
+      clientId: ProviderConfig.YOUTUBE_CLIENT_ID || ProviderConfig.GOOGLE_DRIVE_CLIENT_ID || "",
+      clientSecret: ProviderConfig.YOUTUBE_CLIENT_SECRET || ProviderConfig.GOOGLE_DRIVE_CLIENT_SECRET || "",
+      authorization: {
+        params: {
+          scope: "openid email profile https://www.googleapis.com/auth/youtube.upload",
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code"
+        }
+      }
     }),
     CredentialsProvider({
       name: "Credentials",

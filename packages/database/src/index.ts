@@ -1,22 +1,19 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from ".prisma/client/index.js";
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
 
 // Global for development to prevent hot reload from creating multiple connections
 const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-let prismaInstance: PrismaClient | undefined;
+const connectionString = process.env.DATABASE_URL || "postgresql://postgres:postgres@localhost:5432/thronova";
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 
-export const prisma = new Proxy({} as PrismaClient, {
-  get(target, prop) {
-    if (!prismaInstance) {
-      if (globalForPrisma.prisma) {
-        prismaInstance = globalForPrisma.prisma;
-      } else {
-        prismaInstance = new PrismaClient();
-        if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prismaInstance;
-      }
-    }
-    return (prismaInstance as any)[prop];
-  }
+export const prisma = globalForPrisma.prisma || new PrismaClient({
+  adapter,
+  log: ['error']
 });
 
-export * from "@prisma/client";
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+
+export * from ".prisma/client/index.js";
